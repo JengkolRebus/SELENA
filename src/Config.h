@@ -12,8 +12,8 @@
 #define FIRMWARE_NAME "SELENA"
 
 // ===== USER CONFIGURATION =====
-#define WIFI_SSID "GOGO PANGESTU 2"
-#define WIFI_PASS "00000001"
+#define WIFI_SSID "WIFI_SSID"
+#define WIFI_PASS "WIFI_PASSWORD"
 const int MOUNTING_PORT = 10001; // Stellarium port connection
 
 // ===== LOCATION CONFIGURATION =====

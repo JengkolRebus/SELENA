@@ -88,13 +88,27 @@ void setup() {
   useNTP = false; // pastikan tidak diupdate lagi setelah itu
   Serial.println("Menunggu koneksi ke Stellarium.");
 
+  // Set posisi awal stepper berdasarkan nilai di Config.cpp
+  alt_stepper.setCurrentPosition(currentALT * STEPS_PER_DEGREE);
+  az_stepper.setCurrentPosition(currentAZ * STEPS_PER_DEGREE);
+
+  getCurrentTime();
   ALTAZ_TO_RADEC(currentALT, currentAZ, lat, lon, currentEpoch, currentRA, currentDEC);
+  Serial.print(currentALT);
+  Serial.print("\t");
+  Serial.println(currentAZ);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   alt_stepper.run();
   az_stepper.run();
+  getCurrentTime();
+  if(isTracking == 'T'){
+    RADEC_TO_ALTAZ(targetRA, targetDEC, lat, lon, currentEpoch, targetALT, targetAZ);
+    SLEW_TO_TARGET(targetALT, targetAZ);
+    isSlewing = false;
+  }
   // accept client
   WiFiClient client = server.accept();
 
@@ -121,12 +135,12 @@ void loop() {
 
       // --- Cetak waktu tiap 1 detik ---
       if (lastActivity - lastGet >= PRINT_INTERVAL) {
-        // getCurrentTime();
-        // if(isTracking == 'T'){
-        //   RADEC_TO_ALTAZ(targetRA, targetDEC, lat, lon, currentEpoch, targetALT, targetAZ);
-        //   SLEW_TO_TARGET(targetALT, targetAZ);
-        //   isSlewing = false;
-        // }
+        getCurrentTime();
+        if(isTracking == 'T'){
+          RADEC_TO_ALTAZ(targetRA, targetDEC, lat, lon, currentEpoch, targetALT, targetAZ);
+          SLEW_TO_TARGET(targetALT, targetAZ);
+          isSlewing = false;
+        }
 
         lastGet = lastActivity;
 

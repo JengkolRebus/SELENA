@@ -67,7 +67,9 @@ void GET_CURRENT_POS(){
 void HOME(){
   isTracking = 'N';
   haveTarget = false;
-  SLEW_TO_TARGET(0,0);
+  
+  SET_SLEW_SPEED(4);
+  SLEW_TO_TARGET(0,180);
   while (alt_stepper.distanceToGo() != 0 || az_stepper.distanceToGo() != 0) {
     alt_stepper.run();
     az_stepper.run();

@@ -13,8 +13,8 @@ unsigned long lastGet = 0;
 double UTC_OFFSET = 7.0;
 
 // Mount Initial position
-double currentALT = 45;
-double currentAZ = 90;
+double currentALT = 0;
+double currentAZ = 180;
 double currentRA = 0;
 double currentDEC = 0;
 
